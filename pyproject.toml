@@ -1,0 +1,20 @@
+[project]
+name = "runbook-bot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.140.7",
+    "google-genai>=2.14.0",
+    "langchain-google-genai>=4.3.2",
+    "llama-index>=0.14.23",
+    "llama-index-embeddings-gemini>=0.4.2",
+    "llama-index-vector-stores-postgres>=0.8.1",
+    "pgvector>=0.5.0",
+    "psycopg2-binary>=2.9.12",
+    "python-dotenv>=1.2.2",
+    "redis>=8.0.1",
+    "sqlalchemy>=2.0.51",
+    "uvicorn[standard]>=0.51.0",
+]
