@@ -35,9 +35,19 @@ def process_job(job_id: str, message_id: str):
     finally:
         client.xack(STREAM_NAME, CONSUMER_GROUP, message_id)
 
+def recover_pending():
+    """Re-run jobs a previous worker instance claimed but never finished."""
+    _next, claimed, *_ = client.xautoclaim(
+        STREAM_NAME, CONSUMER_GROUP, CONSUMER_NAME,
+        min_idle_time=0, start_id="0-0", count=10,
+    )
+    for message_id, fields in claimed:
+        print(f"[worker] Recovering unfinished job {fields['job_id']}")
+        process_job(fields["job_id"], message_id)
 
 def main():
     ensure_consumer_group()
+    recover_pending()
     print(f"[worker] Listening on '{STREAM_NAME}' as '{CONSUMER_NAME}'...")
     while True:
         response = client.xreadgroup(
